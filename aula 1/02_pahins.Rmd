@@ -1,0 +1,171 @@
+---
+title: "02_pahins"
+author: "Cícero Pahins"
+date: "10/23/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+if(!("tidyverse" %in% installed.packages())) install.packages("tidyverse")
+library(tidyverse)
+if(!("gridExtra" %in% installed.packages())) install.packages("gridExtra")
+library(gridExtra)
+if(!("grid" %in% installed.packages())) install.packages("grid")
+library(grid)
+```
+
+## R Markdown
+
+```{r echo=FALSE}
+source("http://www.openintro.org/stat/data/cdc.R")
+```
+
+## Exercícios
+
+**Exercício 1**
+Há quantos casos neste conjunto de dados? Quantas variáveis? Para cada variável, identifique seu tipo de dado (p.e., categorial, discreta) 
+
+```{r}
+dim(cdc)
+```
+
+**Exercício 2**
+Crie um sumário numérico para height (altura) e age (idade),  e calcule o intervalo  interquartílico  para  cada  um. 
+
+```{r}
+summary(cdc$height)
+iqr_height <- as.vector(summary(cdc$height)[5] - summary(cdc$height)[2])
+
+summary(cdc$age)
+iqr_age <- as.vector(summary(cdc$age)[5] - summary(cdc$age)[2])
+
+# Calcule  a  distribuição de frequência  relativa  para gender e exerany.
+
+sum(with(cdc, gender == "m" & exerany == TRUE)) / sum(with(cdc, gender == "m"))
+sum(with(cdc, gender == "m" & exerany == FALSE)) / sum(with(cdc, gender == "m"))
+
+# Quantos homens compõem a amostra?
+
+sum(with(cdc, gender == "m"))
+
+# Qual proporção da amostra diz estar com saúde excelente?
+
+sum(with(cdc, gender == "m" & genhlth == "excellent"))
+```
+
+**Exercício 3** 
+O que o gráfico de mosaico revela sobre os hábitos de fumar e gênero?
+
+```{r}
+mosaicplot(table(cdc$gender,cdc$smoke100))
+```
+
+**Exercício 4**
+Crie um novo objeto denominado under23_and_smoke (ou, se preferir, abaixo23_e_fuma) que contém todas as observações dos respondentes com menos de 23 anos que fumaram pelo menos 100 cigarros ao longo de sua vida.
+
+```{r}
+under23_and_smoke <- subset(cdc, cdc$age < 23 & cdc$smoke100 == TRUE)
+```
+
+**Exercício 5**
+O que este gráfico de caixas mostra? Escolha outra variável categorial do conjunto de dados e verifique como ela se relaciona ao IMC. Liste a variável que você escolheu, por que você pensou que ela poderia ter relação com o IMC e indique o que o gráfico parece sugerir.
+
+```{r}
+cdc$bmi <- (cdc$weight / cdc$height^2) * 703
+
+cdc %>% 
+  ggplot() +
+  geom_boxplot(aes(x = genhlth, y = bmi))
+```
+
+## Sua Vez
+
+**Sua Vez - 1**
+Crie um gráfico de dispersão da variável peso em relação ao peso desejado.  Defina a relação entre essas duas variáveis.
+
+```{r}
+cdc %>%
+  ggplot(aes(x = weight, y = wtdesire)) +
+  geom_point() +
+  geom_smooth()
+
+cdc %>%
+  ggplot(aes(x = weight * 0.453592, y = wtdesire  * 0.453592)) +
+  geom_point() +
+  geom_smooth()
+```
+
+**Sua Vez - 2**
+Vamos considerar uma nova variável:  a diferença entre o peso desejado (wtdesire) e o peso atual(weight).
+
+```{r}
+cdc$wdiff <- cdc$wtdesire - cdc$weight
+```
+
+**Sua Vez - 3**
+Que tipo de dado está contido na variável wdiff? Se uma observação de wdiff é 0, o que isso implica
+com relação ao peso atual e desejado de uma pessoas? E se o valor de wdiff for positivo ou negativo?
+
+```{r}
+cdc %>%
+  ggplot() +
+  geom_histogram(aes(wdiff)) +
+  scale_x_continuous(breaks = seq(-200, 200, 40)) +
+  coord_cartesian(xlim = c(-200, 200)) +
+  facet_grid(gender ~.)
+
+```
+
+**Sua Vez - 4**
+Descreva  a  distribuição  de wdiff em  termos  de  seu  centro,  forma  e  variação,  incluindo  qualquer gráfico que você usar.  O que isso nos diz sobre como as pessoas se sentem a respeito do seu peso atual?
+
+```{r}
+cdc %>% filter(gender == "m") %>%
+  ggplot() +
+  geom_boxplot(aes(x = gender, y = wdiff)) + 
+  coord_cartesian(ylim = c(-75, 75))
+
+cdc %>%
+  ggplot() +
+  geom_histogram(aes(wdiff)) +
+  scale_x_continuous(breaks = seq(-200, 200, 40)) +
+  coord_cartesian(xlim = c(-200, 200))
+
+
+p1 <- cdc %>% ggplot(aes(x = wdiff)) +
+  geom_histogram(fill = "red", color = "black", binwidth = 1) +
+  scale_x_continuous(limits = c(-75, 75), breaks = seq(-75, 75, 5)) +
+  labs(x = "", y = "")
+
+p2 <- cdc %>%  ggplot(aes(x = "", y = wdiff)) +
+  stat_boxplot(geom ='errorbar', width = 0.4) +
+  geom_boxplot(outlier.colour = "red") +
+  coord_flip() +
+  scale_y_continuous(limits = c(-75, 75), breaks = seq(-75, 75, 5)) +
+  stat_summary(fun.y = mean, colour = "blue", geom = "point", shape = 20, size = 3) +
+  labs(x = "", y = "wdiff")
+
+
+grid.draw(rbind(ggplotGrob(p1), ggplotGrob(p2), size = "first"))
+```
+
+**Sua Vez - 5**
+Utilizando sumários numéricos e um gráfico de caixas lado-a-lado, determine se homens tendem a ver seu peso diferentemente das mulheres.
+
+```{r}
+summary(subset(cdc, gender == "m")$wdiff*0.453592)
+
+summary(subset(cdc, gender == "f")$wdiff*0.453592)
+```
+
+**Sua Vez - 6**
+Agora  chegou  a  hora  de  usar  a  criatividade.   Encontre  a  média  e  o  desvio  padrão  de weight e determine qual a proporção de pesos que estão a um desvio padrão da média.
+
+```{r}
+cdc_mean <- mean(cdc$weight)
+
+cdc_sd <- sd(cdc$weight)
+
+nrow(subset(cdc, weight <= cdc_mean + cdc_sd & weight >= cdc_mean - cdc_sd)) / nrow(cdc)
+```

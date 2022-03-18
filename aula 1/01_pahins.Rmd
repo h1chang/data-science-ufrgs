@@ -1,0 +1,142 @@
+---
+title: "01_pahins"
+author: "Cícero Pahins"
+date: "10/22/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+if(!("tidyverse" %in% installed.packages())) install.packages("tidyverse")
+library(tidyverse)
+```
+
+## R Markdown
+
+```{r echo=FALSE}
+source("http://www.openintro.org/stat/data/arbuthnot.R")
+```
+
+**Exercício 1**
+Qual comando você utilizaria para extrair somente a contagem de meninas batizadas? Experimente!
+
+```{r}
+# número de anos
+length(arbuthnot$girls)
+
+# soma de todas as meninas batizadas
+sum(arbuthnot$girls)
+```
+
+**Exercício 2**
+Há  alguma  tendência  aparente  no  número  de  meninas  batizadas  ao  longo  dos anos? Como você a descreveria?
+
+```{r}
+arbuthnot %>%
+ggplot(aes(x = year)) +
+  geom_freqpoly(aes(y = girls, colour = "meninas"), stat = "identity") + 
+  geom_freqpoly(aes(y = boys, colour = "meninos"), stat = "identity") +
+  scale_colour_manual('crianças', values = c('meninas' = 'red', 'meninos' = 'blue')) +
+  ylab("batizados") +
+  xlab("ano")
+
+```
+
+**Exercício 3**
+Agora,  crie  um  gráfico  das  proporções  dos  meninos  com  relação  ao  tempo.   O que  você  percebe?  Dica:  se  você  usar  as  teclas  de  flecha  para  cima  e  para  baixo,  você  pode retomar os comando prévios, chamado de histórico de comandos. Você também pode acessá-lo clicando na aba “history” no painel no canto superior direito. Isto irá lhe economizar várias digitações no futuro!
+
+```{r}
+arbuthnot %>%
+ggplot(aes(x = year)) +
+  geom_line(aes(y = boys/(boys + girls))) +
+  geom_smooth(aes(y = boys/(boys + girls))) +
+  #scale_colour_manual('crianças', values = c('meninas' = 'red', 'meninos' = 'blue')) +
+  ylab("proporção") +
+  xlab("ano")
+```
+
+
+## Sua Vez
+
+```{r echo=FALSE}
+source("http://www.openintro.org/stat/data/present.R")
+```
+
+**Sua Vez - 1**
+Quais anos estão incluídos neste conjunto de dados?
+
+```{r}
+present$year
+```
+
+Quais são as dimensões da base de dados?
+
+```{r}
+dim(present)
+```
+
+Quais são os nomes das colunas ou variáveis
+
+```{r}
+names(present)
+```
+
+**Sua Vez - 2**
+Como estas contagens se comparam aos dados de Arbuthnot? Eles estão numa escala similar?
+
+```{r}
+arbuthnot$type <- "arbuthnot"
+present$type <- "present"
+
+df <- rbind(arbuthnot, present)
+
+df %>%
+ggplot() +
+  geom_freqpoly(aes(x = year, y = girls + boys, group = type, colour = type), stat = "identity") +
+  scale_colour_manual('data frame', values = c('arbuthnot' = 'red', 'present' = 'blue')) +
+  scale_y_log10(breaks = scales::trans_breaks("log10", function(x) 10^x), labels = scales::trans_format('log10', scales::math_format(10^.x))) +
+  ylab("crianças") +
+  xlab("ano")
+```
+
+**Sua Vez - 3**
+A observação de Arbuthnot de que os meninos nascem numa proporção maior que as meninas se mantém nos EUA?
+
+```{r}
+present %>%
+ggplot(aes(x = year)) +
+  geom_freqpoly(aes(y = girls, colour = "meninas"), stat = "identity") + 
+  geom_freqpoly(aes(y = boys, colour = "meninos"), stat = "identity") +
+  scale_colour_manual('crianças', values = c('meninas' = 'red', 'meninos' = 'blue')) +
+  ylab("crianças") +
+  xlab("ano")
+```
+
+**Sua Vez - 4**
+Crie um gráfico que mostre a razão de meninos para meninas para cada ano do conjunto de dados. O que você pode verificar?
+
+```{r}
+arbuthnot %>%
+ggplot(aes(x = year)) +
+  geom_line(aes(y = boys/(girls))) +
+  geom_smooth(aes(y = boys/(girls))) +
+  #scale_colour_manual('crianças', values = c('meninas' = 'red', 'meninos' = 'blue')) +
+  ylab("proporção") +
+  xlab("ano")
+
+present %>%
+ggplot(aes(x = year)) +
+  geom_line(aes(y = boys/(girls))) +
+  geom_smooth(aes(y = boys/(girls))) +
+  #scale_colour_manual('crianças', values = c('meninas' = 'red', 'meninos' = 'blue')) +
+  ylab("proporção") +
+  xlab("ano")
+```
+
+**Sua Vez - 5**
+Em qual ano se verifica o maior número de nascimentos nos EUA?
+
+```{r}
+present$year[which.max(present$boys + present$girls)]
+```
+
