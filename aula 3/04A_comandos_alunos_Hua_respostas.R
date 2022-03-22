@@ -155,22 +155,63 @@ par(mfrow = c(1, 1))
 
 # 1. Retire uma amostra aleatória de 50 elementos da variável price (preço). Com essa amostra, qual é
 # sua melhor estimativa pontual para a média populacional?
+sampPrice <- sample(price, 50)
+sampPrice
+hist(sampPrice, breaks = 25)
+summary(sampPrice)
+mean(price) # média real
+mean(sampPrice) # média da amostra  
+## R. A média real é 180796, enquanto a média da amostra de tamanho 50 é 178573.
 
-
-  
 # 2. Já que você tem acesso à população, simule a distribuição amostral de ¯ xprice retirando 5000 amostras
 # de 50 elementos da população e calculando 5000 médias amostrais. Armazene essas médias em um
 # vetor com o nome sample_means50. Crie um gráfico com os resultados, e então descreva a forma
 # dessa distribuição amostral. Baseado nessa distribuição amostral, qual seria seu palpite para a média
 # dos preços das casas na população? Por fim, calcule e informe a média populacional.
+sample_means50 <- rep(0, 5000)
+for(i in 1:5000){
+  samp <- sample(price, 50)
+  sample_means50[i] <- mean(samp)
+}
+
+hist(sample_means50)
+mean(sample_means50)
+mean(price)
+## R. A distribuição amostral é muito parecida com uma distribuição normal.
+## A média da amostra é 180687, muito próxima da média real que é 180796.
 
 # 3. Mude o tamanho da sua amostra de 50 para 150, e então calcule a distribuição amostral utilizando o
 # mesmo método descrito acima, e guarde as médias em um novo vetor com o nome sample_means150.
 # Descreva a forma dessa distribuição amostral e compare-a com a distribuição amostral para a amostra
 # de 50 elementos. Com base nessa distribuição amostral, qual seria seu palpite sobre a média dos
 # preços de vendas de casas no município de Ames?
+
+sample_means150 <- rep(0, 5000)
+for(i in 1:5000){
+  samp <- sample(price, 150)
+  sample_means150[i] <- mean(samp)
+}
+
+par(mfrow=c(2,1)) # exibir gráficos lado a lado
+hist(sample_means50, breaks = 50)
+hist(sample_means150, breaks = 50)
+par(mfrow = c(1, 1)) # reset
+mean(sample_means50)
+mean(sample_means150)
+mean(price)
+## R. O ponto médio da distribuição de deslocou para direita, e a distribuição parece ser menos dispersa.
+## A média indicada pela sample_means150 é 180777.
   
 # 4. Das distribuições amostrais calculadas nos exercícios 2 e 3, qual tem menor dispersão? Se estamos
 # interessados em estimativas que estão mais próximas do valor verdadeiro, preferiríamos uma
 # distribuição com uma dispersão pequena ou grande?
+par(mfrow=c(2,1))
+hist(sample_means50, breaks = 50)
+hist(sample_means150, breaks = 50)
+par(mfrow = c(1, 1)) # reset
+summary(sample_means50)
+summary(sample_means150)
+summary(price)
+
+## R. A amostra sample_means150, parece ser menos dispersa e com a média mais próxima da distribuição real.
   
