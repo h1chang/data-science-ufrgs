@@ -46,3 +46,10 @@ qf(0.05, df1=6, df2=8, lower.tail = FALSE) #f crÃ­tico
 t.test(C,N,alternative = c("two.sided"), var.equal=F,paired=F, conf.level = 0.9) 
 qt(0.05, df=7.825, lower.tail = T) #t crÃ­tico
 qt(0.05, df=7.825, lower.tail = F) #t crÃ­tico
+
+
+###############################################################################
+# Exercícios Aula 4
+
+# Fazer exercícios 1 e 2 dos slides 15, 18 e 22.
+# Utilize os três exemplos feitos em aula como referência (para resolver e interpretar).

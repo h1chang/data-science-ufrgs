@@ -81,5 +81,33 @@ inference(y = nc$weight, x = nc$habit, est = "mean", type = "ci", null = 0,
 # R. (-0,5777 ; -0,0534) que nos dÃ¡ o IC para Mi_F - Mi_NF
 
 
+#####################################################################
+# Sua Vez
+# Sua Vez - Laboratório 05
 
-#Sua Vez
+
+# 1. Calcule o intervalo de confiança de 95% para a duração média das gravidezes (weeks) e o interprete
+# no contexto do conjunto de dados. Perceba que, uma vez que você está realizando uma inferência
+# sobre um único parâmetro populacional, não há nenhuma variáveis explanatória, e portanto você
+# pode omitir a variável x da função.
+
+
+
+# 2. Calcule um novo intervalo de confiança para o mesmo parâmetro com nível de confiança de 90%.
+# Você pode mudar o nível de confiança adicionando um novo argumento à função: conflevel =0.90.
+
+
+
+# 3. Realize um teste de hipótese para avaliar se o a média do peso ganho pelas mães mais jovens é
+# diferente da média de peso ganho pelas mães mais velhas.
+
+# 4. Agora, um tarefa não-inferencial: determine o ponto de corte da idade das mães jovens e maduras.
+# Utilize um método da sua escolha, e explique como seu método funciona.
+
+# 5. Escolha um par de variáveis, sendo uma numérica e outra categorial, e desenvolva um pergunta de
+# pesquisa para avaliar a relação entre essas variáveis. Formule a questão de maneira que ela possa ser
+# respondida utilizando um teste de hipótese e/ou um intervalo de confiança. Responda a sua questão
+# utilizando a função inference, informe os resultados estatísticos, e também elabora uma explicação
+# sem linguagem simples.
+
+
