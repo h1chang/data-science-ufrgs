@@ -90,19 +90,46 @@ inference(y = nc$weight, x = nc$habit, est = "mean", type = "ci", null = 0,
 # no contexto do conjunto de dados. Perceba que, uma vez que você está realizando uma inferência
 # sobre um único parâmetro populacional, não há nenhuma variáveis explanatória, e portanto você
 # pode omitir a variável x da função.
-
-
+inference(y = nc$weeks, est = "mean", type = "ci", null = 0,
+          alternative = "twosided", method = "theoretical")
+## R. 95 % Confidence interval = ( 38.1528 , 38.5165 )
 
 # 2. Calcule um novo intervalo de confiança para o mesmo parâmetro com nível de confiança de 90%.
 # Você pode mudar o nível de confiança adicionando um novo argumento à função: conflevel =0.90.
+inference(y = nc$weeks, est = "mean", type = "ci", null = 0,
+          alternative = "twosided", method = "theoretical", conflevel = 0.9)
 
-
+## R. 90 % Confidence interval = ( 38.182 , 38.4873 )
 
 # 3. Realize um teste de hipótese para avaliar se o a média do peso ganho pelas mães mais jovens é
 # diferente da média de peso ganho pelas mães mais velhas.
+nc$mature # indica: "younger mom" ou "mature mom"
+
+inference(y= nc$gained, x = nc$mature, est = "mean", type = "ht", null = 0,
+          alternative = "twosided", method = "theoretical")
+
+## R. observada diferença entre as médias de "mature" e "younger" = -1.7697
+## H0: mu_mature mom - mu_younger mom = 0 
+## HA: mu_mature mom - mu_younger mom != 0 
+## Standard error = 1.286 
+## Test statistic: Z =  -1.376 
+## p-value =  0.1686, aceitamos HA
+
 
 # 4. Agora, um tarefa não-inferencial: determine o ponto de corte da idade das mães jovens e maduras.
 # Utilize um método da sua escolha, e explique como seu método funciona.
+
+## mães jovens
+nc_younger <- subset(nc$mage, nc$mature == "younger mom")
+summary(nc_younger) # Max. 34
+## mãe jovem mais velha tem 34 anos
+
+## mães maduras
+nc_mature <- subset(nc$mage, nc$mature == "mature mom")
+summary(nc_mature) # Min. 35
+## mãe adulta mais jovem tem 35 anos
+
+## R. 35 anos é a idade de corte. Idade < 35 = jovem, Idade >= 35 = madura.
 
 # 5. Escolha um par de variáveis, sendo uma numérica e outra categorial, e desenvolva um pergunta de
 # pesquisa para avaliar a relação entre essas variáveis. Formule a questão de maneira que ela possa ser
@@ -110,4 +137,15 @@ inference(y = nc$weight, x = nc$habit, est = "mean", type = "ci", null = 0,
 # utilizando a função inference, informe os resultados estatísticos, e também elabora uma explicação
 # sem linguagem simples.
 
+##R.
+## numérica: weight
+## categórica: marital ("married" ou "not married") 
+inference(y= nc$weight, x = nc$marital, est = "mean", type = "ht", null = 0,
+          alternative = "twosided", method = "theoretical")
+
+## R. Existe relação entre peso do bebê e estado civil dos pais?
+## A média de peso do bebê dos pais casados é 6.8
+## A média de peso do bebê dos pais não casados é 7.3
+## Quando p-value = 0, aceitamos HA
+## Não existe relação entre estado civil e peso do bebê.
 

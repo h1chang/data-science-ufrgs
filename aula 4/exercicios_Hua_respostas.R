@@ -53,3 +53,5 @@ qt(0.05, df=7.825, lower.tail = F) #t crÃ­tico
 
 # Fazer exercícios 1 e 2 dos slides 15, 18 e 22.
 # Utilize os três exemplos feitos em aula como referência (para resolver e interpretar).
+
+# slide 15
