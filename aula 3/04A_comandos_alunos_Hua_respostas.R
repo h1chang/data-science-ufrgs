@@ -140,34 +140,32 @@ hist(sample_means100, breaks = 20, xlim = xlimits)
 #Para retornar para a configura??o padr?o de criar um gr?fico por vez
 par(mfrow = c(1, 1))
 
-
-
 # Exerc?cio 6 Quando o tamanho da amostra ? maior, o que acontece com o 
 #centro da distribui??o? E com a dispers?o?
 # R. O centro est? sempre em torno de 1500, e a dispers?o vai diminuindo 
 #com o aumento do tamanho da amostra.
 
-#SUA VEZ
-# Sua Vez - Laborat√≥rio 04A
 
-# At√© agora, n√≥s nos ocupamos em estimar a m√©dia da √°rea habit√°vel nas casas do munic√≠pio de Ames.
-# Agora voc√™ tentar√° estimar a m√©dia dos pre√ßos das casas.
+# Sua Vez - LaboratÛrio 04A
+# AtÈ agora, nÛs nos ocupamos em estimar a mÈdia da ·rea habit·vel nas casas do municÌpio de Ames.
 
-# 1. Retire uma amostra aleat√≥ria de 50 elementos da vari√°vel price (pre√ßo). Com essa amostra, qual √©
-# sua melhor estimativa pontual para a m√©dia populacional?
+# Agora vocÍ tentar· estimar a mÈdia dos preÁos das casas.
+
+# 1. Retire uma amostra aleatÛria de 50 elementos da vari·vel price (preÁo). Com essa amostra, qual È
+# sua melhor estimativa pontual para a mÈdia populacional?
 sampPrice <- sample(price, 50)
 sampPrice
 hist(sampPrice, breaks = 25)
 summary(sampPrice)
 mean(price) # m√©dia real
 mean(sampPrice) # m√©dia da amostra  
-## R. A m√©dia real √© 180796, enquanto a m√©dia da amostra de tamanho 50 √© 178573.
-
-# 2. J√° que voc√™ tem acesso √† popula√ß√£o, simule a distribui√ß√£o amostral de ¬Ø xprice retirando 5000 amostras
-# de 50 elementos da popula√ß√£o e calculando 5000 m√©dias amostrais. Armazene essas m√©dias em um
-# vetor com o nome sample_means50. Crie um gr√°fico com os resultados, e ent√£o descreva a forma
-# dessa distribui√ß√£o amostral. Baseado nessa distribui√ß√£o amostral, qual seria seu palpite para a m√©dia
-# dos pre√ßos das casas na popula√ß√£o? Por fim, calcule e informe a m√©dia populacional.
+## R. A mÈdia real È 180796, enquanto a mÈdia da amostra de tamanho 50 È 178573.
+  
+# 2. J· que vocÍ tem acesso ‡ populaÁ„o, simule a distribuiÁ„o amostral de Ø xprice retirando 5000 amostras
+# de 50 elementos da populaÁ„o e calculando 5000 mÈdias amostrais. Armazene essas mÈdias em um
+# vetor com o nome sample_means50. Crie um gr·fico com os resultados, e ent„o descreva a forma
+# dessa distribuiÁ„o amostral. Baseado nessa distribuiÁ„o amostral, qual seria seu palpite para a mÈdia
+# dos preÁos das casas na populaÁ„o? Por fim, calcule e informe a mÈdia populacional.
 sample_means50 <- rep(0, 5000)
 for(i in 1:5000){
   samp <- sample(price, 50)
@@ -177,14 +175,14 @@ for(i in 1:5000){
 hist(sample_means50)
 mean(sample_means50)
 mean(price)
-## R. A distribui√ß√£o amostral √© muito parecida com uma distribui√ß√£o normal.
-## A m√©dia da amostra √© 180687, muito pr√≥xima da m√©dia real que √© 180796.
+## R. A distribuiÁ„o amostral È muito parecida com uma distribuiÁ„o normal.
+## A mÈdia da amostra È 180687, muito prÛxima da mÈdia real que È 180796.
 
-# 3. Mude o tamanho da sua amostra de 50 para 150, e ent√£o calcule a distribui√ß√£o amostral utilizando o
-# mesmo m√©todo descrito acima, e guarde as m√©dias em um novo vetor com o nome sample_means150.
-# Descreva a forma dessa distribui√ß√£o amostral e compare-a com a distribui√ß√£o amostral para a amostra
-# de 50 elementos. Com base nessa distribui√ß√£o amostral, qual seria seu palpite sobre a m√©dia dos
-# pre√ßos de vendas de casas no munic√≠pio de Ames?
+# 3. Mude o tamanho da sua amostra de 50 para 150, e ent„o calcule a distribuiÁ„o amostral utilizando o
+# mesmo mÈtodo descrito acima, e guarde as mÈdias em um novo vetor com o nome sample_means150.
+# Descreva a forma dessa distribuiÁ„o amostral e compare-a com a distribuiÁ„o amostral para a amostra
+# de 50 elementos. Com base nessa distribuiÁ„o amostral, qual seria seu palpite sobre a mÈdia dos
+# preÁos de vendas de casas no municÌpio de Ames?
 
 sample_means150 <- rep(0, 5000)
 for(i in 1:5000){
@@ -193,25 +191,28 @@ for(i in 1:5000){
 }
 
 par(mfrow=c(2,1)) # exibir gr√°ficos lado a lado
-hist(sample_means50, breaks = 50)
-hist(sample_means150, breaks = 50)
+hist(sample_means50, breaks = 50, xlim=c(150000, 220000)) # limites eixo x para facilitar comparaÁ„o visual
+hist(sample_means150, breaks = 50, xlim=c(150000, 220000))
 par(mfrow = c(1, 1)) # reset
 mean(sample_means50)
 mean(sample_means150)
 mean(price)
-## R. O ponto m√©dio da distribui√ß√£o de deslocou para direita, e a distribui√ß√£o parece ser menos dispersa.
-## A m√©dia indicada pela sample_means150 √© 180777.
+## R. O ponto mÈdio da distribuiÁ„ode deslocou para direita, e a distribuiÁ„o parece ser menos dispersa.
+## A mÈdia indicada pela sample_means150 È 180777.
+
+
   
-# 4. Das distribui√ß√µes amostrais calculadas nos exerc√≠cios 2 e 3, qual tem menor dispers√£o? Se estamos
-# interessados em estimativas que est√£o mais pr√≥ximas do valor verdadeiro, preferir√≠amos uma
-# distribui√ß√£o com uma dispers√£o pequena ou grande?
+# 4. Das distribuiÁıes amostrais calculadas nos exercÌcios 2 e 3, qual tem menor dispers„o? Se estamos
+# interessados em estimativas que est„o mais prÛximas do valor verdadeiro, preferirÌamos uma
+# distribuiÁ„o com uma dispers„o pequena ou grande?
+
 par(mfrow=c(2,1))
-hist(sample_means50, breaks = 50)
-hist(sample_means150, breaks = 50)
+hist(sample_means50, breaks = 50, xlim=c(150000, 220000))
+hist(sample_means150, breaks = 50, xlim=c(150000, 220000))
 par(mfrow = c(1, 1)) # reset
 summary(sample_means50)
 summary(sample_means150)
 summary(price)
 
-## R. A amostra sample_means150, parece ser menos dispersa e com a m√©dia mais pr√≥xima da distribui√ß√£o real.
-  
+## R. A amostra sample_means150, parece ser menos dispersa e com a mÈdia mais prÛxima da mÈdia da distribuiÁ„o real.
+

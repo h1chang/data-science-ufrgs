@@ -100,19 +100,55 @@ c(lower_vector[1],upper_vector[1])
 
 #Sua Vez
 
-# Sua Vez - Laborat√≥rio 04B
+# Sua Vez - LaboratÛrio 04B
 
-# 1. Utilizando a seguinte fun√ß√£o (que foi carregada junto com o conjunto de dados), crie gr√°ficos de todos
-# os intervalos. Que propor√ß√£o dos intervalos de confian√ßa cont√©m a verdadeira m√©dia populacional?
-# Essa propor√ß√£o √© exatamente igual ao n√≠vel de confian√ßa? Se n√£o, explique por qu√™.
+# 1. Utilizando a seguinte funÁ„o (que foi carregada junto com o conjunto de dados), crie gr·ficos de todos
+# os intervalos. Que proporÁ„o dos intervalos de confianÁa contÈm a verdadeira mÈdia populacional?
+# Essa proporÁ„o È exatamente igual ao nÌvel de confianÁa? Se n„o, explique por quÍ.
 # plot_ci(lower_vector, upper_vector, mean(population))
 
-# 2. Escolha um intervalo de confian√ßa de sua prefer√™ncia, desde que n√£o seja de 95%. Qual √© o valor
-# cr√≠tico apropriado?
-  
-# 3. Calcule 50 intervalos de confian√ßa utilizando o n√≠vel de confian√ßa que voc√™ escolheu na quest√£o anterior.
-# Voc√™ n√£o precisa obter novas amostras: simplesmente calcule os novos intervalos baseado nas
-# m√©dias amostrais e desvios padr√£o que voc√™ j√° coletou. Utilizando a fun√ß√£o plot_ci, crie gr√°ficos de
-# todos os intervalos e calcule a propor√ß√£o de intervalos que cont√©m a verdadeira m√©dia populacional.
-# Compare essa propor√ß√£o com o n√≠vel de confian√ßa escolhido para os intervalos.
+plot_ci(lower_vector, upper_vector, mean(population)) # trÍs linhas vermelhas no gr·fico gerado
+3/50 # 94% < 95%
 
+## R. Das 50 amostras geradas 3 delas, representadas por linhas vermelhas no gr·fico, n„o contÈm
+## a mÈdia real da populaÁ„o. A proporÁ„o encontrada, 94% È inferior ao nÌvel de confianÁa de 95%.
+## Provavelmente È pelo fato de serem somente 50 amostras de tamnho pequeno.
+
+# 2. Escolha um intervalo de confianÁa de sua preferÍncia, desde que n„o seja de 95%. Qual È o valor
+# crÌtico apropriado?
+
+x <- (99/100) # confianÁa desejada 95%
+y <- (1-x)/2 # area desejada em cada ponta da cauda
+1-y # par‚metro para a funÁ„o qnorm
+qnorm(1-y, mean = 0, sd = 1, lower.tail = T)
+qnorm(1-y)
+
+# transformando em funÁ„o
+valorCritico <- function (confianca)  {
+  x <- (confianca/100) # confianÁa desejada 95%
+  y <- (1-x)/2 # area desejada em cada ponta da cauda
+  1-y # par‚metro para a funÁ„o qnorm
+  qnorm(1-y, mean = 0, sd = 1, lower.tail = T)
+  qnorm(1-y) # valor crÌtico
+}
+valorCritico(95)
+
+# aplicando a forma para 97% de confianÁa
+valorCritico(97) # 2.17009
+
+## R. Para 97% de confianÁa desejada o valor crÌtico È 2.17009
+  
+# 3. Calcule 50 intervalos de confianÁa utilizando o nÌvel de confianÁa que vocÍ escolheu na quest„o anterior.
+# VocÍ n„o precisa obter novas amostras: simplesmente calcule os novos intervalos baseado nas
+# mÈdias amostrais e desvios padr„o que vocÍ j· coletou. Utilizando a funÁ„o plot_ci, crie gr·ficos de
+# todos os intervalos e calcule a proporÁ„o de intervalos que contÈm a verdadeira mÈdia populacional.
+# Compare essa proporÁ„o com o nÌvel de confianÁa escolhido para os intervalos.
+
+lower_vector <- samp_mean - valorCritico(97) * samp_sd / sqrt(n)
+upper_vector <- samp_mean + valorCritico(97) * samp_sd / sqrt(n)
+c(lower_vector[1],upper_vector[1])
+
+plot_ci(lower_vector, upper_vector, mean(population)) # gr·fico apresentou 1 linha vermelha
+1 - 1/50 # 98% > 97% (confianÁa desejada)
+
+## R. A proporÁ„o encontrada foi 98%, bem prÛxima a confianÁa escolhida de 97%.
