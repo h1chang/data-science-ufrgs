@@ -1,0 +1,112 @@
+---
+title: "04_pahins"
+author: "Cícero Pahins"
+date: "10/23/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+if(!("tidyverse" %in% installed.packages())) install.packages("tidyverse")
+library(tidyverse)
+```
+
+## R Markdown
+
+```{r echo=FALSE}
+# setup
+download.file("http://www.openintro.org/stat/data/bdims.RData", destfile = "bdims.RData")
+load("bdims.RData")
+```
+
+## Exercícios
+
+**Exercício 1**
+Elabore  um  histograma  da  altura  dos  homens  e  um  histograma  das  alturas  das mulheres. Como você descreveria os diferentes aspectos das duas distribuições?
+
+```{r}
+mdims <- subset(bdims, bdims$sex == 1)
+fdims <- subset(bdims, bdims$sex == 0)
+
+fdims %>%
+  ggplot() +
+  geom_histogram(aes(hgt))
+
+mdims %>%
+  ggplot() +
+  geom_histogram(aes(hgt))
+
+bdims %>%
+  ggplot(aes(hgt)) +
+  geom_histogram() + 
+  facet_wrap(~sex)
+```
+
+**Exercício 2**
+Baseado neste gráfico, parece que os dados seguem aproximadamente uma distribuição normal?
+
+```{r}
+bdims %>%
+  ggplot(aes(x = hgt)) +
+  geom_histogram(aes(y = ..density..)) + 
+  geom_density(alpha=.2, fill="#FF6666") +
+  stat_function(fun = dnorm, args = list(mean = mean(bdims$hgt), sd = sd(bdims$hgt)), col = 'red')
+```
+**Exercício 3**
+Faça  um  gráfico  de  probabilidade  normal  do  vetor sim_norm. Os  pontos  caem todos em cima da linha? Como este gráfico se compara ao gráfico de probabilidade dos dados reais?
+
+```{r}
+sim_norm <- rnorm(n = length(bdims$hgt), mean = mean(bdims$hgt), sd = sd(bdims$hgt))
+
+sim_dims <- bdims
+sim_dims$hgt <- sim_norm
+
+ggplot(bdims, aes(sample = hgt)) + 
+  stat_qq(aes(color = sex))
+
+ggplot(sim_dims, aes(sample = hgt)) + 
+  stat_qq(aes(color = sex))
+
+y     <- quantile(bdims$hgt, c(0.25, 0.75)) # Find the 1st and 3rd quartiles
+x     <- qnorm(c(0.25, 0.75))         # Find the matching normal values on the x-axis
+slope <- diff(y) / diff(x)             # Compute the line slope
+int   <- y[1] - slope * x[1]  
+
+ggplot(bdims) + 
+  aes(sample=hgt) + 
+  stat_qq(distribution=qnorm) + 
+  geom_abline(intercept=int, slope=slope, color = "red") +
+  facet_wrap(~sex, nrow = 1)
+```
+
+**Exercício 4**
+O  gráfico  de  probabilidade  normal  para fdims$hgt parece  similar  aos  gráficos criados para os dados simulados? Quer dizer, os gráficos fornecem evidência de que as alturas de mulheres são aproximadamente normais?
+
+```{r}
+qqnormsim(fdims$hgt)
+```
+
+**Exercício 5**
+Usando a mesma técnica, determine se os pesos de mulheres parecem ser provenientes de uma distribuição normal.
+
+```{r}
+qqnormsim(fdims$wgt)
+```
+
+**Exercício 6**
+Elabore  duas  questões  de  probabilidade  que  você  gostaria  de  responder;  uma com  relação à  altura  de  mulheres  e  outra  com  relação  ao  peso  de  mulheres.   Calcule  essas probabilidades  usando  tanto  o  método  teórico  da  distribuição  normal  quanto  a distribuição empírica (quatro probabilidade no total). Qual variável, altura ou peso, teve uma concordância maior entre os dois métodos?
+
+```{r}
+pnorm_t_hgt <- 1- pnorm(q = 182, mean = mean(fdims$hgt), sd = sd(fdims$hgt))
+pnorm_e_hgt <- sum(fdims$hgt > 182) / length(fdims$hgt)
+pnorm_t_hgt
+pnorm_e_hgt
+pnorm_t_hgt - pnorm_e_hgt
+
+pnorm_t_wgt <- 1- pnorm(q = 60, mean = mean(fdims$wgt), sd = sd(fdims$wgt))
+pnorm_e_wgt <- sum(fdims$wgt > 60) / length(fdims$wgt)
+pnorm_t_wgt
+pnorm_e_wgt
+pnorm_t_wgt - pnorm_e_wgt
+```
+
