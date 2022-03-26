@@ -59,9 +59,12 @@ table(us12$response)/1002
 #construir o intervalo de confiança para a proporção de ateus nos EUA utilizando a função inference
 inference(y = us12$response, est = "proportion", type = "ci", method = "theoretical",
           success = "atheist")
+prop.test(table(us12$response))
+binom.test(table(us12$response)) #teste exato
+
 # R. 95 % Confidence interval = ( 0.0364 , 0.0634 )
 # R. EP = raiz (p(1-p)/n) = raiz (0,499(1-0,499)/1002) = 0.0069
-# R. IC = 0.499 -+ 1.96 * 0.0069
+# R. IC = 0.0499 -+ 1.96 * 0.0069
 
 # Exercício 6 Com base nos resultados do R, qual é a margem de erro para a 
 # estimativa da proporção de ateus nos EUA em 2012?
@@ -78,9 +81,11 @@ table(Brazil12$response)
 table(Brazil12$response)/2002
 inference(y = Brazil12$response, est = "proportion", type = "ci", method = "theoretical",
           success = "atheist")
+prop.test(table(Brazil12$response))
+binom.test(table(Brazil12$response)) #teste exato
 # R. Brasil: 95 % Confidence interval = ( 0.0056 , 0.0143 )
 1.96*0.0022
-0.0143-00999001
+0.0143-0.00999001
 # ME = 0.00431
 
 
