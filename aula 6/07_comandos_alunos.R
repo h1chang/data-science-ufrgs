@@ -62,6 +62,7 @@ summary(m1)
 # 0.63 -> a cada aumento de uma unidade na variável "at_bats", espera-se
 # um aumento de 0.63 na variável "runs"
 # Sum of Squares: 66.47^2 * 28 = 123711.31
+## 30 observa��es - 2 = 28
 # R2 = 37,29%
 # proporção de variabilidade de Y-"runs" que é explicada por X-"at_bats"
 
