@@ -88,6 +88,9 @@ binom.test(table(Brazil12$response)) #teste exato
 0.0143-0.00999001
 # ME = 0.00431
 
+## margem de erro = diferença do intervalo de confiança / 2
+## OU  1.96 * Standard Error
+
 
 Italy12 <- subset(atheism, atheism$nationality == "Italy" & atheism$year == "2012")
 table(Italy12$response)
@@ -231,19 +234,73 @@ par(mfrow = c(1,1))
 # hipóteses para qualquer teste que você realizar e esboce sobre as condições para inferência.
 # (a) Há evidência convincente de que a Espanha teve uma mudança em seu índice de ateísmo entre
 # 2005 e 2012?
-  
 # Dica: Crie um novo conjunto de dados para os respondentes da Espanha. Depois, utilize suas
 # respostas como a primeira entrada na função inference, e utilize a variável year (ano) para
 # definir os grupos.
 
+## R.
+
+## Espanha 2005
+spain2005 <- subset(atheism, atheism$nationality == "Spain" & atheism$year == "2005")
+table(spain2005$response)
+115+1031
+table(spain2012$response)/1146
+
+inference(y = spain2005$response, est = "proportion", type = "ci", method = "theoretical",
+          success = "atheist")
+
+## Espanha 2012
+spain2012 <- subset(atheism, atheism$nationality == "Spain" & atheism$year == "2012")
+table(spain2012$response)
+103 + 1042
+table(spain2012$response)/1145
+
+inference(y = spain12$response, est = "proportion", type = "ci", method = "theoretical",
+          success = "atheist")
+## R.
+## Espanha 2005 - 95 % Confidence interval = ( 0.083 , 0.1177 )
+## Espanha 2012 - 95 % Confidence interval = ( 0.0734 , 0.1065 )
+## Há evidência que não houve mudança. visto que o intervalos tem uma grande interseção
+
 # (b) Há evidência convincente de que os Estados Unidos tiveram uma mudança em seu índice de
 # ateísmo entre 2005 e 2012?
   
+## EUA 2005
+eua2005 <- subset(atheism, atheism$nationality == "United States" & atheism$year == "2005")
+table(eua2005$response) # 992+10
+10 + 992
+table(eua2005$response)/1002
+
+inference(y = eua2005$response, est = "proportion", type = "ci", method = "theoretical",
+          success = "atheist")
+
+## EUA 2012
+eua2012 <- subset(atheism, atheism$nationality == "United States" & atheism$year == "2012")
+table(eua2012$response)
+50 + 952
+table(eua2012$response)/1002
+
+inference(y = eua2012$response, est = "proportion", type = "ci", method = "theoretical",
+          success = "atheist")
+## R.
+## EUA 2005 - 95 % Confidence interval = ( 0.0038 , 0.0161 )
+## EUA 2012 - 95 % Confidence interval = ( 0.0364 , 0.0634 )
+## Há evidência que houve mudança. visto que o intervalos não tem interseção
+
+
 # 2. Se de fato não houve nenhuma mudança no índice de ateísmo nos países listados na Tabela 4, em
 # quantos países você esperar detectar uma mudança (com um nível de significância de 0,05) simplesmente
 # por acaso?
   
 # Dica: Procure no índice do livro sobre erros do Tipo 1.
+
+0.05 * 39
+## R. Erro do tipo I consiste em, num testes de hipóteses, rejeitar a hipótese nula quando ela é verdadeira.
+## Ao fixar um nível de significância de 5% num determinado teste, 
+## estamos a afirmar que em 5% das vezes rejeitaremos a hipótese nula sendo esta verdadeira.
+## Ou seja, sendo o nível de significância 0.05 para os 39 países, podemos esperar que o erro
+## aconteça para 0.05 * 39 = 1.95 casos.
+
 
 # 3. Suponha que você foi contratado pelo governo local para estimar a proporção de residentes que
 # participam de cultos religiosos semanalmente. De acordo com diretrizes, a estimativa deve ter uma
@@ -253,6 +310,35 @@ par(mfrow = c(1,1))
   
 # Dica: Retome seu gráfico da relação entre p e a margem de erro. Não use o conjunto de dados para
 # responder a essa questão.
+
+## revisitando relação entre p e me
+n <- 1000
+p <- seq(0, 1, 0.01)
+me <- 1.96*sqrt(p*(1 - p)/n)
+plot(me ~ p) # relação me & p
+ 
+## me = 0.01
+## nível de confiança 0.95
+## me = 1.96 * ep; ep = sqrt(p*(1 - p)/n)
+## transformando fórmula em função de N
+## me <- 1.96 * 2*sqrt(p*(1 - p)/n) transaformar fórmula em função de n
+## me^2 <- (1.96^2 * p * (1-p))/N
+## N <- (1.96^2 * p * (1-p))/me^2
+p <-seq(0, 1, 0.01)
+me <-0.01
+N<- 1.96^2 * p * (1-p)/me^2
+plot(N ~ p) # relação N & p
+
+##  me máximo e N máximo -> quando p = 0.5
+p <-0.5
+me <-0.01
+N<- 1.96^2 * p * (1-p)/me^2
+N # N = 9604
+
+## Participantes máximo para a confiança desejada é 9604
+
+
+
 
 
 

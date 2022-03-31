@@ -123,7 +123,7 @@ abline(h = 0, lty = 3) # adiciona uma linha pontilhada horizontal em y = 0
 
 # Qual e falsa?
 # (A) Os resíduos parecem ser distribuídos aleatoriamente em torno de 0.
-# (B) Os resíduos mostram um padrão curvo.
+# (B) Os resíduos mostram um padrão curvo. [FALSA]
 # (C) O gráfico é indicativo de uma relação linear entre corridas e rebatidas.
 # (D) A equipe com um resíduo muito alto em relação aos demais parece ser um outlier.
 
@@ -140,7 +140,7 @@ shapiro.test(m1$residuals)
 # (A) Os resíduos são extremamente assimétricos à direita, portanto, a condição de distribuição normal dos resíduos não é atendida.
 # (B) Os resíduos são extremamente assimétricos à esquerda, portanto, a condição de distribuição normal dos resíduos não é atendida.
 # (C) Os resíduos são perfeitamente simétricos, portanto, a condição de distribuição normal dos resíduos é atendida.
-# (D) Os resíduos são bastante simétricos, com apenas uma cauda ligeiramente mais longa à direita, portanto, seria apropriado considerar a condição de distribuição normal dos resíduos atendida.
+# RESPOSTA (D) Os resíduos são bastante simétricos, com apenas uma cauda ligeiramente mais longa à direita, portanto, seria apropriado considerar a condição de distribuição normal dos resíduos atendida.
 
 
 # (3) variância constante.

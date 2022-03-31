@@ -22,7 +22,7 @@ shapiro.test(residuals.lm(m1))
 
 # exemplo academia - slide 17
 library(readxl)
-dados_academia <- read_excel("dados_academia.xlsx")
+dados_academia <- read_excel("C:\\Dev\\github\\CD001-estatistica\\aula 6\\dados_academia.xlsx")
 
 mean(dados_academia$Y)
 
@@ -91,7 +91,7 @@ names(mariokart)
 # identificar outliers
 boxplot(mariokart$total_pr)
 ggplot(mariokart, aes(x=total_pr,y=cond)) +
-  geom_boxplot()
+geom_boxplot()
 
 # tirando outliers
 mariokart %>%
@@ -134,11 +134,14 @@ mm<-lm(total_pr~wheels+duration+start_pr,data=mariokart_no)
 summary(mm)
 
 
+
 # incluindo variáveis categórica
 # mariokart$cond <- ifelse(mariokart$cond == 'used', 0, 1)
 # mariokart$stock_photo <- ifelse(mariokart$stock_photo == 'yes', 1, 0)
 mmc<-lm(total_pr~cond+wheels,data =mariokart_no)
 summary(mmc)
+
+library(modelr)
 
 model_plot = mariokart_no %>% 
   data_grid(cond, wheels) %>% 
