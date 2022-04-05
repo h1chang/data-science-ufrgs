@@ -111,6 +111,7 @@ sum(fdims$hgt > 182) / length(fdims$hgt)
 
 #Qual ? a probabilidade de uma mulher ser menor do que 168 cm?
 pnorm(q = 168, mean = fhgtmean, sd = fhgtsd)
+
 # R. 0.6836408
 sum(fdims$hgt < 168) / length(fdims$hgt)
 # R. 0.6846154
