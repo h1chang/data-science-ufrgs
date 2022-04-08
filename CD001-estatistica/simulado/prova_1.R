@@ -248,7 +248,21 @@ qnorm(.99) # z_critico
 
 
 
-
+n1 = 220
+x1 = 65
+n2 = 65
+x2 = 37
+phat1 = x1/n1
+phat2 = x2/n2
+SE = sqrt((phat1*(1-phat1)/n1)+(phat2*(1-phat2)/n2))
+(phat1-phat2)- + c(-1, 1)*qnorm(.9)*SE #IC
+#[1] -0.001490590 0.001260488
+(phat1-phat2)/SE # z_calculado
+#[1] -0.1639328
+qnorm(.9) # z_critico
+#[1] 1.959964
+2*pnorm((phat1-phat2)/SE,lower.tail=T) # p-valor
+#[1] 0.869784
 
 
 
@@ -294,9 +308,9 @@ nota # 39.2084
 
 # d. 
 # nota <- b + a * hora
-pro <- 43
-apt <- (pro - b) / a
-apt # 26.80793
+nota <- 60
+hora <- (nota - b) / a
+hora # 65.93439
 
 
 
