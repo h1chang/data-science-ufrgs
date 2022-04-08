@@ -106,29 +106,48 @@ boxplot(vector3, plot = F)$stats
 
 # pnorm para aplicar valores e encontrar a probabilidade (%)
 
-media <- 24
-desvio_padrao <- 1.5
+media <- 21
+desvio_padrao <- 2
 
-# 1 F
-qnorm(0.05, mean = media, sd = desvio_padrao, lower.tail = T)
-##  21.53272
+# 1 V
+1- pnorm(20.5, mean = media, sd = desvio_padrao, lower.tail = T)
+##  0.5987063
 
-# 2 V
+# 2
+pnorm(17.5, mean = media, sd = desvio_padrao, lower.tail = F)
+## 0.9599408
+
+# 3
+0.99/2
+0.5 + 0.495
+0.5 - 0.495
+
+qnorm(0.995, mean = media, sd = desvio_padrao, lower.tail = T)
+# 26.15166
+qnorm(0.005, mean = media, sd = desvio_padrao, lower.tail = T)
+# 15.84834
+
+# 4
+pnorm(22.1, mean = media, sd = desvio_padrao, lower.tail = T)
+
+# 5
+qnorm(0.1, mean = media, sd = desvio_padrao, lower.tail = T)
+
 x <- pnorm(22.6, mean = media, sd = desvio_padrao, lower.tail = T)
 y <- pnorm(19.3, mean = media, sd = desvio_padrao, lower.tail = T)
 x-y 
 ## [1] 0.1744598 V
 
-# 3 F
+# 3
 2.5 * 1.5
 24 + (2.5 * 1.5)
 ## 27.75
 
-# 4 V
+# 4
 pnorm(23.4, mean = media, sd = desvio_padrao, lower.tail = T)
 # 0.3445783
 
-# 5 F
+# 5
 0.9/2
 0.5 + 0.45
 0.5 - 0.45
@@ -143,9 +162,9 @@ qnorm(0.05, mean = media, sd = desvio_padrao, lower.tail = T)
 ############################
 
 # media <- ?
-variancia <- 25
-tamanho <- 400
-z_calculado <- 0.2
+variancia <- 16
+tamanho <- 576
+z_calculado <- 0.1
 
 desvio_padrao <- sqrt(variancia)
 erro_padrao <- desvio_padrao / sqrt(tamanho)
@@ -159,11 +178,11 @@ prob
 ###### Questão 8 - 
 ############################
 
-tamanho <- 121
-media <- 130.1
-desvio_padrao <- 9
-alpha <- 98/100 # confiança
-# intervalo [128.2; 132]
+tamanho <- 144
+media <- 119.9
+desvio_padrao <- 7
+alpha <- 99/100 # confiança
+# intervalo [118.4; 121.4]
 
 erro_padrao <- desvio_padrao/sqrt(tamanho)
 z <- qnorm (1 - (1 - alpha)/2, mean = 0, sd = 1, lower.tail = T)
@@ -182,11 +201,12 @@ media - z * erro_padrao
 ############################
 
 # a) limite superior para intervalo de confiança 99%
-tamanho <- 15
-media <- 345
-variancia <- 100
+tamanho <- 19
+media <- 329
+variancia <- 121
 
 desvio_padrao <- sqrt(variancia)
+desvio_padrao
 
 # a) qual limite superior?
 confianca <- 99/100
@@ -194,26 +214,26 @@ confianca <- 99/100
 x <- 1 - ((1-confianca)/2) # 0.995
 t <- qt(x, tamanho - 1) # 2.976843
 limite_superior <- media + t * desvio_padrao / sqrt(tamanho)
-limite_superior # 352.6862
+limite_superior # 336.264
 
 # b) amplitude do intervalo bilateral de confiança de 90%
 # calcular z
-confianca <- 90/100
+confianca <- 98/100
 
 x <- 1 - ((1-confianca)/2) # 0.95
 t <- qt(x, tamanho - 1) #  1.76131
 
 amplitude <- 2 * t * desvio_padrao / sqrt(tamanho)
-amplitude # 9.095366
+amplitude # 12.88223
 
 # c) tamamnho da amostra para intervalo de confiança de 90% apresentasse amplitude de no máximo 5 unidades
-amplitude <- 5
-confianca <- 90/100
+amplitude <- 9
+confianca <- 98/100
 
 x <- 1 - ((1-confianca)/2) # 0.95
 t <- qt(x, tamanho - 1) #  1.76131
-tamanho <- (2 * t * desvio_padrao / amplitude)^2
-tamanho # 49.63541
+tamanho_novo <- (2 * t * desvio_padrao / amplitude)^2
+tamanho_novo # 38.927
 
 
 ############################
@@ -233,11 +253,13 @@ tamanho # 49.63541
 ###### Questão 11 - 
 ############################
 
-test_antes <- c(128, 128, 126, 118, 128, 120)
-test_depois <- c(120,	120,	130,	114,	120,	116)
+test_antes <- c(125, 126, 118, 124, 139, 124, 118, 110, 132)
+test_depois <- c(118, 130, 114, 123, 130, 123, 114, 112, 124)
 
 t.test(test_antes, test_depois, paired=T, alternative="greater") 
-# t = 2.4445, df = 5, p-value = 0.02916
+# t = 2.0812, df = 8, p-value = 0.03549
+
+qt(0.99, 8)
 
 
 # a) unilateral a direita, unilateral esquerda ou bilateral?
@@ -254,10 +276,10 @@ t.test(test_antes, test_depois, paired=T, alternative="greater")
 # h0: ilegal = 50%
 # h1: ilegal > 80%
 
-n <- 1539
-n_ilegal <- 1262
+n <- 1626
+n_ilegal <- 1350
 n_legal  <- n - n_ilegal
-alpha <- 0.04
+alpha <- 0.06
 
 phat <- n_ilegal / n
 p0 <- 0.8 # 80%
@@ -265,11 +287,11 @@ p0 <- 0.8 # 80%
 SE = sqrt(p0*(1-p0)/n)
 
 
-phat + c(-1)*qnorm(0.96)*SE #IC apenas considerando a parte inferior do intervalo (hA é  "mais que 80%")
+phat + c(-1)*qnorm(0.94)*SE #IC apenas considerando a parte inferior do intervalo (hA é  "mais que 80%")
 
 (phat-p0)/SE # z_calculado (Qual é o valor da estatística de teste?)
 
-qnorm(0.96) # z_critico unilateral (valor crítico)
+qnorm(0.94) # z_critico unilateral (valor crítico)
 
 pnorm((phat-p0)/SE,lower.tail=F) # p-valor do teste unilateral (só multiplica por 2 quando são as duas caudas)
 
@@ -279,8 +301,8 @@ pnorm((phat-p0)/SE,lower.tail=F) # p-valor do teste unilateral (só multiplica po
 ###### Questão 13 - 
 ############################
 
-confianca <- 99/100
-desvio <- 0.045
+confianca <- 90/100
+desvio <- 0.055
 
 # a) 
 
@@ -289,15 +311,15 @@ p <- 1/2
 x <- 1 - ((1-confianca)/2) # 0.95
 z <- qnorm (x, mean = 0, sd = 1, lower.tail = T)
 n <- (z/desvio)^2 * p * (1 - p)
-n # 815
+n # 223.5986
 
 #b) 
 
-p <- 0.15
+p <- 0.29
 x <- 1 - ((1-confianca)/2) # 0.95
 z <- qnorm (x, mean = 0, sd = 1, lower.tail = T)
 n <- (z/desvio)^2 * p * (1 - p)
-n # 415
+n # 184.1558
 
 
 ############################
@@ -305,31 +327,31 @@ n # 415
 ############################
 
 # y
-teste_pro <- c(30, 40, 45, 26, 37, 33, 33, 28)
+teste_pro <- c(37, 30, 45, 33, 25, 38, 26, 28)
 
 # x
-teste_apt <- c(18, 19, 22, 16, 25, 22, 21, 20) 
+teste_apt <- c(25, 18, 22, 22, 15, 23, 16, 20) 
 
 modelo <- lm(teste_pro ~ teste_apt)
 summary(modelo)
 
 # y = b + a * x
 
-b <- 8.283
-a <- 1.262
+b <- 1.8820
+a <- 1.5338
 # pro <- 8.283 + 1.262 * apt
 
-# a. 1,262
+# a. 1.5338
 
-# b. 8,283
+# b. 1.8820
 
 # c. 
-apt <- 20
+apt <- 15
 pro <- b + a * apt
-pro # 33.523
+pro # 24.889
 
 # d. 
 # pro <- 8.283 + 1.262 * apt
-pro <- 44
+pro <- 43
 apt <- (pro - b) / a
-apt
+apt # 26.80793
