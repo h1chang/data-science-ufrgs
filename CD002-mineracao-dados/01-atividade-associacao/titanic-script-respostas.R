@@ -156,9 +156,9 @@ inspect(rules.sorted)
 # Re-executando com suporte mais baixo, e Removendo regras redundantes
 #
 
-rules.all <- apriori(titanic.raw, control = list(verbose=F), # não exibe detalhes do progresso do algoritmo
-                     parameter = list(minlen=2, supp=0.05, conf=0.6), # mínimo de itesn, para ignorar regras com lado esquerdo vazio
-                     appearance = list(rhs=c("Survived=No", "Survived=Yes"), default="lhs")) # só interessa regras indicando "survived" no lado direito
+rules.all <- apriori(titanic.raw, control = list(verbose=F), 
+                     parameter = list(minlen=2, supp=0.05, conf=0.6),
+                     appearance = list(rhs=c("Survived=No", "Survived=Yes"), default="lhs"))
 quality(rules.all) <- round(quality(rules.all), digits=3) #3 casas após a vírgula
 rules.sorted <- sort(rules.all, by="support") # ordenação
 inspect(rules.sorted)
@@ -293,6 +293,8 @@ plot(rules.pruned)
 plot(rules.pruned,engine = "htmlwidget")
 
 #Q20: Qual a regra com suporte mais alto?  Qual suporte resultaria em regras com maior confiança?
+[19] {Age=Adult => {Survived=No} support - 0.6, confidence = 0.69. lift = 1.02
+Regras com support entre 0 e 0.2 resulta em confiança mais altos.
 
 # Selecionar apenas um conjunto de regras
 subrules<-rules.pruned[quality(rules.pruned)$confidence>0.5]
