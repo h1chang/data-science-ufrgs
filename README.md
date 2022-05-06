@@ -2,3 +2,4 @@
 
 <br> CD001 Estatística
 <br> CD002 Mineração de Dados
+<br> CD002 Aprendizado Supervisionado
