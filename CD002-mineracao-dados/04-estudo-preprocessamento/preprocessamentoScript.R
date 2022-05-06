@@ -155,6 +155,34 @@ plot(bike$season, main="Histograma - Distribuicao dos usuarios por Estação do 
 #Q9: Você acha que um ou mais dos 4 atributos plotados podiam ser descartados para geração de regras? 
 #Cite qual/quais, e justifique sua resposta
 
+
+bike <- bike %>% 
+  mutate(
+    perigo_calor = case_when(
+      atemp < 27  ~ "sem perigo",
+      atemp < "32"~ "cuidado",
+      atemp < "56"~ "perigo",
+      TRUE ~  "perigo alto"
+    )
+  )
+
+
+bike$perigo_calor <- as.factor(bike$perigo_calor)
+str(bike)
+summary(bike)
+
+plot(bike$perigo_calor, main="Histograma - Perigo calor", 
+     xlab="Perigo Calor",
+     ylim=c(0,11000), las=0)
+
+
+##################################################################
+
+
+
+
+
+
 #agregando os usos por horario
 #tratando o atributo que representa um timestamp 
 
