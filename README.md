@@ -1,4 +1,4 @@
-# Projetos R do curso Pós Ciência de Dados UFRGS
+Curso Pós Ciência de Dados UFRGS
 
 <br> CD001 Estatística
 <br> [CD002 Mineração de Dados](https://github.com/h1chang/cd002-trabalho-pratico)
